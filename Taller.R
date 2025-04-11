@@ -1,3 +1,6 @@
+library(moments)
+pdf("todas_las_graficas.pdf")
+
 # Simulación de base de datos con 60 clientes
 set.seed(42)
 
@@ -65,3 +68,43 @@ hist(datos$Salario,
      xlab = "Salario (USD)",
      ylab = "Frecuencia")
 
+# Punto 6: Tabla cruzada y diagrama de barras apiladas para Ocupación vs Industria
+
+# Etiquetar variables para mejor interpretación
+datos$Ocupacion_etiqueta <- factor(datos$Ocupacion, 
+                                  levels = 0:5, 
+                                  labels = c("Otro", "Administrador", "Ventas", 
+                                            "Operario oficina", "Servicios generales", 
+                                            "Ingeniero"))
+
+datos$Industria_etiqueta <- factor(datos$Industria, 
+                                  levels = 0:2, 
+                                  labels = c("Otra", "Manufactura", "Construcción"))
+
+# Crear tabla cruzada
+tabla_cruzada <- table(datos$Ocupacion_etiqueta, datos$Industria_etiqueta)
+print(tabla_cruzada)
+
+# Calcular porcentajes por columna
+prop.table(tabla_cruzada, margin = 2) * 100
+
+# Gráfico de barras apiladas
+barplot(tabla_cruzada, 
+        col = rainbow(nrow(tabla_cruzada)),
+        legend.text = rownames(tabla_cruzada),
+        args.legend = list(x = "topright", cex = 0.7),
+        main = "Ocupación por Tipo de Industria",
+        xlab = "Tipo de Industria",
+        ylab = "Frecuencia")
+
+# Punto 8: Diagramas de caja y bigotes para Ocupación vs Salario Anual
+
+# Crear el boxplot
+boxplot(Salario ~ Ocupacion_etiqueta, data = datos,
+        col = rainbow(6),
+        main = "Distribución de Salario por Tipo de Ocupación",
+        xlab = "Tipo de Ocupación",
+        ylab = "Salario Anual (USD)",
+        las = 2)  # Rotar etiquetas del eje x para mejor visualización
+
+dev.off()
