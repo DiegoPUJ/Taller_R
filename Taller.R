@@ -24,5 +24,44 @@ print(porcentajes)
 pie(tabla_ocupacion,
     labels = paste(names(tabla_ocupacion), porcentajes, "%"),
     main = "Distribución de Ocupación")
+    
+# Punto 4: Tabla de frecuencias y gráfico de barras para Industria
+# Crear la tabla de frecuencias para la variable Industria
+tabla_industria <- table(datos$Industria)
+print(tabla_industria)
 
+# Calcular los porcentajes
+porcentaje_industria <- round(prop.table(tabla_industria) * 100, 2)
+print(porcentaje_industria)
+
+# Etiquetas con nombre completo para las barras
+nombres_industria <- c("Otra", "Manufactura", "Construcción")
+names(tabla_industria) <- nombres_industria
+
+# Diagrama de barras
+barplot(tabla_industria,
+        col = "steelblue",
+        main = "Distribución por Tipo de Industria",
+        xlab = "Tipo de Industria",
+        ylab = "Frecuencia",
+        ylim = c(0, max(tabla_industria) + 5))
+
+# Punto 5: Tabla de frecuencias y histograma para la variable cuantitativa SALARIO
+
+# Crear intervalos de clases para los salarios (8 clases por defecto)
+tabla_salario <- cut(datos$Salario, breaks = 8)
+tabla_frecuencia_salario <- table(tabla_salario)
+print(tabla_frecuencia_salario)
+
+# Calcular porcentajes por intervalo
+porcentaje_salario <- round(prop.table(tabla_frecuencia_salario) * 100, 2)
+print(porcentaje_salario)
+
+# Histograma
+hist(datos$Salario,
+     breaks = 8,
+     col = "lightgreen",
+     main = "Histograma de Salario Anual",
+     xlab = "Salario (USD)",
+     ylab = "Frecuencia")
 
