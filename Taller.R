@@ -1,4 +1,3 @@
-library(moments)
 pdf("todas_las_graficas.pdf")
 
 # Simulación de base de datos con 60 clientes
